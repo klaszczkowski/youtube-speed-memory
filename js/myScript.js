@@ -10,9 +10,18 @@ class SpeedSetter {
         this.speedOptions;
 
         this.usableDomTreeIndicators = {
-            classList: 'classList',
-            id: 'id',
-            role: 'role'
+            classList: {
+                name: 'classList',
+                querySelectorParts: ['.', '']
+            },
+            id: {
+                name: 'id',
+                querySelectorParts: ['#', '']
+            },
+            role: {
+                name: 'role',
+                querySelectorParts: ['[role="', '"]']
+            }
         };
 
         this.domTreeElementsIndicators = {
@@ -39,6 +48,11 @@ class SpeedSetter {
         ];
     }
 
+    getIndicatorWithPrefixAndSuffixForQuerySelector (indicatorName, value) {
+        var querySelectorParts = this.usableDomTreeIndicators[indicatorName].querySelectorParts;
+        return querySelectorParts[0] + value + querySelectorParts[1];
+    }
+
     getDOMNode(element) {
         var elementIndicators = this.domTreeElementsIndicators[element];
         var elementIndicatorsArray = Object.keys(elementIndicators);
@@ -47,13 +61,13 @@ class SpeedSetter {
 
         elementIndicatorsArray.forEach(
             (indicator) => {
-                if (indicator == this.usableDomTreeIndicators.classList) {
-                    querySelector += `.${this.domTreeElementsIndicators[element].classList}`
-                } else if (indicator == this.usableDomTreeIndicators.id) {
-                    querySelector += `#${this.domTreeElementsIndicators[element].id}`
-                } else if (indicator == this.usableDomTreeIndicators.role) {
-                    console.log('in role');
-                    querySelector += `[role="${this.domTreeElementsIndicators[element].role}"]`
+
+                if (indicator == this.usableDomTreeIndicators.classList.name) {
+                    querySelector += this.getIndicatorWithPrefixAndSuffixForQuerySelector(indicator, this.domTreeElementsIndicators[element].classList);
+                } else if (indicator == this.usableDomTreeIndicators.id.name) {
+                    querySelector += this.getIndicatorWithPrefixAndSuffixForQuerySelector(indicator, this.domTreeElementsIndicators[element].id);
+                } else if (indicator == this.usableDomTreeIndicators.role.name) {
+                    querySelector += this.getIndicatorWithPrefixAndSuffixForQuerySelector(indicator, this.domTreeElementsIndicators[element].role);
                 }
             }
         );
