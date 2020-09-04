@@ -1,14 +1,7 @@
 chrome.runtime.sendMessage(document.getElementsByTagName('title')[0].innerText);
 
-
 class SpeedSetter {
     constructor() {
-        this.player;
-        this.buttons;
-        this.settingsBtn;
-        this.changeSpeedBtn;
-        this.speedOptions;
-
         this.usableDomTreeIndicators = {
             classList: {
                 name: 'classList',
@@ -21,7 +14,10 @@ class SpeedSetter {
             role: {
                 name: 'role',
                 querySelectorParts: ['[role="', '"]']
-            }
+            },
+            // textValue: {
+            //     name: 'textValue'
+            // }
         };
 
         this.domTreeElementsIndicators = {
@@ -31,6 +27,9 @@ class SpeedSetter {
             changeSpeedMenuItem: {
                 classList: ['ytp-menuitem'],
                 role: 'menuitem'
+            },
+            speedOptionsPannel: {
+                classList: ['ytp-panel'],
             }
         }
 
@@ -74,44 +73,34 @@ class SpeedSetter {
 
         console.log(querySelector);
 
-        return document.querySelector(querySelector);
+        var elementsMatched = document.querySelectorAll(querySelector);
+
+        return elementsMatched;
     }
-
-    checkIfStringValueInIterableObject(value, object) {
-        var i;
-
-        for (i = 0; i < object.length; i++) {
-            if (value == object[i]) return true;
-        }
-
-        return false;
-    }
-
 
     clickSettingsIcon () {
-        const btn = this.getDOMNode('settingsBtn');
-        btn.click();
+        const settingsBtn = this.getDOMNode('settingsBtn');
+        settingsBtn[0].click();
 
-        setTimeout(() => {
-            
-        }, 3000)
+        const changeSpeedMenuItem = this.getDOMNode('changeSpeedMenuItem');
+        changeSpeedMenuItem[0].click();
 
-        this.changeSpeedBtn = this.getDOMNode('changeSpeedMenuItem');
-            this.changeSpeedBtn.click();
+        this.choose150();
     }
 
     choose150() {
-        this.speedOptions = document.querySelectorAll('.ytp-panel');
-        if (this.speedOptions.length == 2) {
-            if (this.speedOptions) this.speedOptions = this.speedOptions[1];
+        let speedOptionsPannel = this.getDOMNode('speedOptionsPannel');
+
+        if (speedOptionsPannel.length == 2) {
+            speedOptionsPannel = speedOptionsPannel[1];
     
-            var items = this.speedOptions.querySelectorAll('.ytp-menuitem');
+            var items = speedOptionsPannel.querySelectorAll('.ytp-menuitem');
     
             var random = Math.floor(Math.random() * 8);
     
             items[random].click();
     
-        } 
+        }
     }
 }
 
