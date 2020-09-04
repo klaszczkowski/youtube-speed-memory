@@ -30,13 +30,16 @@ class SpeedSetter {
             },
             speedOptionsPannel: {
                 classList: ['ytp-panel'],
+            },
+            speedOption: {
+                classList: ['ytp-menuitem'],
             }
         }
 
-        this.initSettings = [
+        this.channelsInitSettings = [
             {
                 channelName: 'codedamn',
-                preferredSpeedSetManuallyInPannel: '1.5',
+                preferredSpeedSetManuallyInPannel: '2',
                 latelySetSpeed: '1.25'
             },
             {
@@ -45,6 +48,21 @@ class SpeedSetter {
                 latelySetSpeed: '0.25'
             }
         ];
+
+        this.currentChannel = 'codedamn';
+        this.speedToSetOnInit = this.getPreferredSpeed();
+    }
+
+    getPreferredSpeed() {
+        let preferredSpeed;
+
+        this.channelsInitSettings.forEach((o) => {
+            if (o.channelName == this.currentChannel) {
+                preferredSpeed = o.preferredSpeedSetManuallyInPannel || o.latelySetSpeed;
+            }
+        });
+
+        return preferredSpeed;
     }
 
     getIndicatorWithPrefixAndSuffixForQuerySelector (indicatorName, value) {
@@ -52,7 +70,10 @@ class SpeedSetter {
         return querySelectorParts[0] + value + querySelectorParts[1];
     }
 
-    getDOMNode(element) {
+    getDOMNode(element, context) {
+        if (!context) {
+            context = document;
+        }
         var elementIndicators = this.domTreeElementsIndicators[element];
         var elementIndicatorsArray = Object.keys(elementIndicators);
 
@@ -73,7 +94,7 @@ class SpeedSetter {
 
         console.log(querySelector);
 
-        var elementsMatched = document.querySelectorAll(querySelector);
+        var elementsMatched = context.querySelectorAll(querySelector);
 
         return elementsMatched;
     }
@@ -85,26 +106,28 @@ class SpeedSetter {
         const changeSpeedMenuItem = this.getDOMNode('changeSpeedMenuItem');
         changeSpeedMenuItem[0].click();
 
-        this.choose150();
+        this.clickSpeedOption();
     }
 
-    choose150() {
+    isNodeInnerTextMatchValue (node) {
+        return node.innerText === this.speedToSetOnInit;
+    }
+
+    clickSpeedOption() {
         let speedOptionsPannel = this.getDOMNode('speedOptionsPannel');
 
         if (speedOptionsPannel.length == 2) {
             speedOptionsPannel = speedOptionsPannel[1];
     
-            var items = speedOptionsPannel.querySelectorAll('.ytp-menuitem');
+            var items = this.getDOMNode('speedOption', speedOptionsPannel);
+
+            var nodeAssignedToSpeedFromInit = this.isNodeInnerTextMatchValue(items);
     
-            var random = Math.floor(Math.random() * 8);
-    
-            items[random].click();
-    
+            nodeAssignedToSpeedFromInit.click();
         }
     }
 }
 
 var speedSetter = new SpeedSetter();
-
 
 speedSetter.clickSettingsIcon();
