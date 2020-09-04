@@ -109,8 +109,18 @@ class SpeedSetter {
         this.clickSpeedOption();
     }
 
-    isNodeInnerTextMatchValue (node) {
-        return node.innerText === this.speedToSetOnInit;
+    getNodeInnerTextMatchValue (nodes) {
+        console.log(nodes);
+        
+        var nodeWithMatchValue = null;
+
+        nodes.forEach((node) => {
+            if (node.innerText === this.speedToSetOnInit) {
+                nodeWithMatchValue = node;
+            }
+        });
+
+        return nodeWithMatchValue;
     }
 
     clickSpeedOption() {
@@ -121,7 +131,7 @@ class SpeedSetter {
     
             var items = this.getDOMNode('speedOption', speedOptionsPannel);
 
-            var nodeAssignedToSpeedFromInit = this.isNodeInnerTextMatchValue(items);
+            var nodeAssignedToSpeedFromInit = this.getNodeInnerTextMatchValue(items);
     
             nodeAssignedToSpeedFromInit.click();
         }
