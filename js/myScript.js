@@ -141,3 +141,4 @@ class SpeedSetter {
 var speedSetter = new SpeedSetter();
 
 speedSetter.clickSettingsIcon();
+

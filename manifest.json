@@ -9,7 +9,8 @@
     },
     "page_action": {
         "default_icon" : "icon-19.png",
-        "default_title" : "There's a '1Youtube' in this URL!"
+        "default_title" : "The app to control your videos speed.",
+        "default_popup" : "popup.html"
     },
     "permissions" : [
         "declarativeContent",
@@ -17,7 +18,7 @@
     ],
     "content_scripts": [
         {
-            "matches": ["http://*/*", "https://*/*"],
+            "matches": ["http://youtube.com/*", "https://youtube.com/*"],
             "js": ["js/myScript.js"]
         }
         

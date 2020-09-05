@@ -2,6 +2,19 @@ chrome.runtime.onMessage.addListener(function (response, sender, sendResponse) {
   // alert(response);
 });
 
+chrome.runtime.onInstalled.addListener(function() {
+
+  chrome.declarativeContent.onPageChanged.removeRules(undefined, function() {
+    chrome.declarativeContent.onPageChanged.addRules([{
+      conditions: [new chrome.declarativeContent.PageStateMatcher({
+        pageUrl: {hostEquals: 'www.youtube.com', schemes: ['https']},
+      })],
+      actions: [new chrome.declarativeContent.ShowPageAction()]
+    }]);
+  });
+}); 
+
+
 
 // window.setTimeout(function() {
 //    var count = document.querySelectorAll("div");
