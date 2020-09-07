@@ -1,6 +1,6 @@
 {
     "manifest_version": 2,
-    "name": "YouTube Speed Memory",
+    "name": "YouTube Speed Setter/Observer",
     "version": "0.1",
     "description": "Management of Youtube videos speed configuration, regarding specific channels.",
     "background": {
@@ -9,8 +9,8 @@
     },
     "page_action": {
         "default_icon" : "icon-19.png",
-        "default_title" : "The app to control your videos speed.",
-        "default_popup" : "popup.html"
+        "default_title" : "There's a '1Youtube' in this URL!",
+        "default_popup": "simple-grid/examples/popup.html"
     },
     "permissions" : [
         "declarativeContent",
@@ -18,7 +18,7 @@
     ],
     "content_scripts": [
         {
-            "matches": ["http://youtube.com/*", "https://youtube.com/*"],
+            "matches": ["http://*/*", "https://*/*"],
             "js": ["js/myScript.js"]
         }
         
